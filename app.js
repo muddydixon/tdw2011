@@ -5,7 +5,8 @@
 
 var express = require('express');
 
-var app = module.exports = express.createServer();
+var app = module.exports = express.createServer()
+, basicAuth = express.basicAuth;
 
 // Configuration
 
@@ -20,16 +21,33 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+  app.all('*', basicAuth(function(user, pass){
+    return config.basicAuth.user === user && config.basicAuth.pass === pass;
+  }));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
 app.configure('production', function(){
+  app.all('/screen', basicAuth(function(user, pass){
+    return config.basicAuth.user === user && config.basicAuth.pass === pass;
+  }));
   app.use(express.errorHandler()); 
 });
 
 // Routes
-
 app.get('/', function(req, res){
+  res.render('index', {
+    title: 'Express'
+  });
+});
+
+app.get('/api/food', function(req, res){
+  res.render('index', {
+    title: 'Express'
+  });
+});
+
+app.get('/screen', function(req, res){
   res.render('index', {
     title: 'Express'
   });
