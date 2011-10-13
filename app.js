@@ -10,6 +10,7 @@ var app = module.exports = express.createServer();
 // Configuration
 
 app.configure(function(){
+  app.set('port', 3111);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -34,5 +35,5 @@ app.get('/', function(req, res){
   });
 });
 
-app.listen(3000);
+app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
