@@ -13,7 +13,8 @@ var express = require('express')
 , config = require('config')
 , io = require('socket.io')
 , qs = require('querystring')
-, Twitter = require('./lib/twitter')
+, http = require('http')
+, OAuth = require('oauth').OAuth
 ;
 
 // Configuration
@@ -65,10 +66,19 @@ app.get('/screen', function(req, res){
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-
-var twit = new Twitter(config.twitter)
-twit.streaming('sample', function(stream){
-  stream.on('data', function(data){
-    console.log(data.text);
-  });
-});
+var oauth = new OAuth(
+  config.twitter.request_token_url
+  , config.twitter.access_token_url
+  , config.twitter.consumer_key
+  , config.twitter.consumer_secret
+  , '1.0a'
+  , config.twitter.callback_url
+  , 'HMAC-SHA1'
+  , null
+  , config.twitter.headers
+);
+var request = oauth.get(
+  'http://stream.twitter.com/1/statuses/sample.json'
+  , config.twitter.access_token
+  , config.twitter.access_token_secret
+);
