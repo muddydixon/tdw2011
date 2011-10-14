@@ -14,7 +14,6 @@ var express = require('express')
 , io = require('socket.io')
 , qs = require('querystring')
 , https = require('https')
-, OAuth = require('oauth').OAuth
 , base64 = require('base64')
 ;
 
