@@ -1,3 +1,7 @@
+// catch uncaughtException
+process.on('uncaughtException', function(e){
+  console.log(e.message);
+});
 
 /**
  * Module dependencies.
@@ -7,7 +11,12 @@ var express = require('express')
 , app = module.exports = express.createServer()
 , basicAuth = express.basicAuth
 , config = require('config')
-, qs = require('querystring');
+, io = require('socket.io')
+, qs = require('querystring')
+, https = require('https')
+, OAuth = require('oauth').OAuth
+, base64 = require('base64')
+;
 
 // Configuration
 app.configure(function(){
@@ -21,9 +30,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.all('*', basicAuth(function(user, pass){
-    return config.basicAuth.user === user && config.basicAuth.pass === pass;
-  }));
+  if(config.basicAuth){
+    app.all('*', basicAuth(function(user, pass){
+      return config.basicAuth.user === user && config.basicAuth.pass === pass;
+    }));
+  }
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
@@ -56,42 +67,30 @@ app.get('/screen', function(req, res){
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-var twitterAPI = '/search.json'
-, http = require('http')
-, options = {
-  host: 'search.twitter.com'
-  , port: 80
-};
 
-var getTweet = function(query, cb){
-  if(typeof query === 'function'){
-    cb = query;
-    query = null;
+var req = https.get({
+  host: 'stream.twitter.com'
+  , port: 443
+  , path: '/1/statuses/sample.json'
+  , headers: {
+    'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
-  if(typeof cb === 'undefined'){
-    return false;
-  }
-  options.path = [twitterAPI, qs.stringify({q: query})].join('?');
-  http.get(options, function(res){
-    
-    if(res.statusCode !== 200){
-      cb(new Error('status code = '+res.statusCode), null);
-    }
-    res.setEncoding('utf8');
-    var data = '';
-    res.on('data', function(chunk){
-      data += chunk;
-    });
-    res.on('end', function(){
-      try{
-        var obj = JSON.parse(data);
-        cb(null, obj);
-      } catch (x) {
-        cb(x, null);
+}, function(res){
+  res.setEncoding('utf8');
+  var buf = '', id, json;
+  res.on('data', function(chunk){
+    buf += chunk;
+    while((id = buf.indexOf('\r\n')) > -1){
+      json = buf.substr(0, id);
+      buf = buf.substr(id + 2);
+      if(json.length > 0){
+        try{
+          io.sockets.emit('tweet', JSON.parse(json));
+        } catch (x) {
+          
+        }
       }
-    });
-  }).on('error', function(e){
-    cb(e, null);
+    }
   });
-};
+});
 
