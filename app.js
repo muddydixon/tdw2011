@@ -53,9 +53,21 @@ app.get('/', function(req, res){
 });
 
 app.get('/api/food', function(req, res){
-  getTweet('#tvasahi', function(err, ret){
-    res.send(ret.results);
-  });
+  if(req.query.q){
+    if(config.dictionary.indexOf(req.query.q) > -1){
+      searchTweet(req.query.q, function(err, ret){
+        if(res){
+          return res.send(ret.results);
+        }else{
+          return res.send({});
+        }
+      });
+    }else{
+      return res.send({});
+    }
+  }else{
+    return res.send({});
+  }
 });
 
 app.get('/screen', function(req, res){
@@ -71,7 +83,7 @@ io.sockets.on('connection', function(socket){
   socket.emit('init', {msg: 'connect ok'});
 });
 
-var options = {
+var streamOptions = {
   host: 'stream.twitter.com'
   , port: 443
   , path: '/1/statuses/filter.json?'+qs.stringify({track: ['twitpic', 'plixi', 'twipple', 'yfrog'].map(function(w){return ['iphone', w].join(' ');}).join(',')})
@@ -79,8 +91,8 @@ var options = {
     'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
 };
-console.log(options.path);
-var req = https.get(options, function(res){
+
+var req = https.get(streamOptions, function(res){
   res.setEncoding('utf8');
   var buf = '', id, json;
   res.on('data', function(chunk){
@@ -99,4 +111,44 @@ var req = https.get(options, function(res){
     }
   });
 });
+
+var twitterAPI = '/search.json'
+, http = require('http')
+, searchOptions = {
+  host: 'search.twitter.com'
+  , port: 80
+};
+
+var searchTweet = function(query, cb){
+  if(typeof query === 'function'){
+    cb = query;
+    query = null;
+  }
+  if(typeof cb === 'undefined'){
+    return false;
+  }
+//   searchOptions.path = [twitterAPI, qs.stringify({q: query})].join('?');
+  searchOptions.path = [twitterAPI, qs.stringify({q: query+' twitpic'})].join('?');
+  http.get(searchOptions, function(res){
+    
+    if(res.statusCode !== 200){
+      cb(new Error('status code = '+res.statusCode), null);
+    }
+    res.setEncoding('utf8');
+    var data = '';
+    res.on('data', function(chunk){
+      data += chunk;
+    });
+    res.on('end', function(){
+      try{
+        var obj = JSON.parse(data);
+        cb(null, obj);
+      } catch (x) {
+        cb(x, null);
+      }
+    });
+  }).on('error', function(e){
+    cb(e, null);
+  });
+};
 
