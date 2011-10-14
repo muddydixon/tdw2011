@@ -7,6 +7,7 @@ var express = require('express')
 , app = module.exports = express.createServer()
 , basicAuth = express.basicAuth
 , config = require('config')
+, io = require('socket.io')
 , qs = require('querystring');
 
 // Configuration
