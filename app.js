@@ -1,3 +1,7 @@
+// catch uncaughtException
+process.on('uncaughtException', function(e){
+  console.log(e.message);
+});
 
 /**
  * Module dependencies.
