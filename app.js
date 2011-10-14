@@ -61,42 +61,10 @@ app.get('/screen', function(req, res){
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-var twitterAPI = '/search.json'
-, http = require('http')
-, options = {
-  host: 'search.twitter.com'
-  , port: 80
-};
 
-var getTweet = function(query, cb){
-  if(typeof query === 'function'){
-    cb = query;
-    query = null;
-  }
-  if(typeof cb === 'undefined'){
-    return false;
-  }
-  options.path = [twitterAPI, qs.stringify({q: query})].join('?');
-  http.get(options, function(res){
-    
-    if(res.statusCode !== 200){
-      cb(new Error('status code = '+res.statusCode), null);
-    }
-    res.setEncoding('utf8');
-    var data = '';
-    res.on('data', function(chunk){
-      data += chunk;
-    });
-    res.on('end', function(){
-      try{
-        var obj = JSON.parse(data);
-        cb(null, obj);
-      } catch (x) {
-        cb(x, null);
-      }
-    });
-  }).on('error', function(e){
-    cb(e, null);
+var twit = new Twitter(config.twitter)
+twit.streaming('sample', function(stream){
+  stream.on('data', function(data){
+    console.log(data.text);
   });
-};
-
+});
