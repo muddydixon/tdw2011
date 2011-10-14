@@ -66,6 +66,9 @@ app.get('/screen', function(req, res){
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
+io.sockets.on('connection', function(socket){
+  socket.emit('init', {msg: 'connect ok'});
+});
 
 var req = https.get({
   host: 'stream.twitter.com'
