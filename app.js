@@ -21,9 +21,11 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.all('*', basicAuth(function(user, pass){
-    return config.basicAuth.user === user && config.basicAuth.pass === pass;
-  }));
+  if(config.basicAuth){
+    app.all('*', basicAuth(function(user, pass){
+      return config.basicAuth.user === user && config.basicAuth.pass === pass;
+    }));
+  }
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 });
 
