@@ -8,7 +8,9 @@ var express = require('express')
 , basicAuth = express.basicAuth
 , config = require('config')
 , io = require('socket.io')
-, qs = require('querystring');
+, qs = require('querystring')
+, Twitter = require('./lib/twitter')
+;
 
 // Configuration
 app.configure(function(){
