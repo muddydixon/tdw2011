@@ -1,7 +1,7 @@
 // catch uncaughtException
-process.on('uncaughtException', function(e){
-  console.log(e.message);
-});
+// process.on('uncaughtException', function(e){
+//   console.log(e.message);
+// });
 
 /**
  * Module dependencies.
@@ -11,10 +11,11 @@ var express = require('express')
 , app = module.exports = express.createServer()
 , basicAuth = express.basicAuth
 , config = require('config')
-, io = require('socket.io')
+, io = require('socket.io').listen(app)
 , qs = require('querystring')
 , https = require('https')
 , base64 = require('base64')
+, locale = require('./locale')
 ;
 
 // Configuration
@@ -47,7 +48,7 @@ app.configure('production', function(){
 // Routes
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Express'
+    title: locale.title
   });
 });
 
@@ -58,8 +59,8 @@ app.get('/api/food', function(req, res){
 });
 
 app.get('/screen', function(req, res){
-  res.render('index', {
-    title: 'Express'
+  res.render('screen', {
+    title: locale.title
   });
 });
 
@@ -70,14 +71,16 @@ io.sockets.on('connection', function(socket){
   socket.emit('init', {msg: 'connect ok'});
 });
 
-var req = https.get({
+var options = {
   host: 'stream.twitter.com'
   , port: 443
-  , path: '/1/statuses/sample.json'
+  , path: '/1/statuses/filter.json?'+qs.stringify({track: ['twitpic', 'plixi', 'twipple', 'yfrog'].map(function(w){return ['iphone', w].join(' ');}).join(',')})
   , headers: {
     'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
-}, function(res){
+};
+console.log(options.path);
+var req = https.get(options, function(res){
   res.setEncoding('utf8');
   var buf = '', id, json;
   res.on('data', function(chunk){
@@ -87,7 +90,8 @@ var req = https.get({
       buf = buf.substr(id + 2);
       if(json.length > 0){
         try{
-          io.sockets.emit('tweet', JSON.parse(json));
+          var tweet = JSON.parse(json);
+          io.sockets.emit('tweet', tweet);
         } catch (x) {
           
         }
