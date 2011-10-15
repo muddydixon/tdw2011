@@ -74,13 +74,18 @@ app.get('/api/food', function(req, res){
 app.get('/screen', function(req, res){
   res.render('screen', {
     title: locale.title
+    , appbase: config.appbase
   });
 });
 
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-io.of('/tdw2011').sockets.on('connection', function(socket){
+
+
+/************************************************************/
+
+io.of('/tdw2011').on('connection', function(socket){
   socket.emit('init', {msg: 'connect ok'});
 });
 
