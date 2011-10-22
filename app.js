@@ -55,17 +55,13 @@ app.get('/', function(req, res){
 
 app.get('/api/food', function(req, res){
   if(req.query.q){
-    if(config.dictionary.indexOf(req.query.q) > -1){
-      searchTweet(req.query.q, function(err, ret){
-        if(res){
-          return res.send(ret.results);
-        }else{
-          return res.send({});
-        }
-      });
-    }else{
-      return res.send({});
-    }
+    searchTweet(req.query.q, function(err, ret){
+      if(res){
+        return res.send(ret.results);
+      }else{
+        return res.send({});
+      }
+    });
   }else{
     return res.send({});
   }
