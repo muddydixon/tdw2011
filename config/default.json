@@ -1,2 +1,14 @@
 {
+  "photos": [
+    "twitpic"
+    , "plixi"
+    , "twipple"
+    , "yfrog"
+    , "pic.twitter.com"
+  ]
+  , "log": {
+    "dir": "logs"
+    , "name": "tdw2011"
+  }
+  
 }

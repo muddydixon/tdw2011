@@ -5,3 +5,4 @@ log/*
 config/*.json
 !config/default.json
 *.bk
+*.log
