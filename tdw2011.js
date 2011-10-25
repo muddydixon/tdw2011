@@ -46,13 +46,6 @@ app.configure('production', function(){
 });
 
 // Routes
-app.get('/', function(req, res){
-  res.render('index', {
-    title: locale.title
-    , appbase: config.appbase
-  });
-});
-
 app.get('/api/food', function(req, res){
   if(req.query.q){
     searchTweet(req.query.q, function(err, ret){
@@ -67,17 +60,12 @@ app.get('/api/food', function(req, res){
   }
 });
 
-app.get('/screen', function(req, res){
-  res.render('screen', {
-    title: locale.title
-    , appbase: config.appbase
-  });
-});
-
 app.listen(app.settings.port);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-
+app.get('/git', function(req, res){
+  res.send(req);
+});
 
 /************************************************************/
 
