@@ -33,7 +33,10 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(log4js.connectLogger(log, {level: log4js.levels.INFO, nolog: config.log.nolog}));
+  app.use(log4js.connectLogger(log, {
+    format: JSON.stringify({ip: ':req[X-Forwarded-For]', method: ':method', url: ':url', status: ':status', ref: ':referrer', ua: ':user-agent'}),
+    level: log4js.levels.INFO,
+    nolog: config.log.nolog}));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
