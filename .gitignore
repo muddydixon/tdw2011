@@ -1,7 +1,7 @@
 *~
 #*
 node_modules
-log/*
+logs/*
 config/*.json
 !config/default.json
 *.bk

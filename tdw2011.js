@@ -16,7 +16,14 @@ var express = require('express')
 , https = require('https')
 , base64 = require('base64')
 , locale = require('./locale')
+, path = require('path')
+, os = require('os')
+, log4js = require('log4js')
+, log
 ;
+
+log4js.addAppender(log4js.fileAppender(path.join(config.log.dir, [config.log.name, os.hostname(), 'access.log'].join('.'))), 'access');
+log = log4js.getLogger('access');
 
 // Configuration
 app.configure(function(){
@@ -25,6 +32,7 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(log4js.connectLogger(log, {level: log4js.levels.INFO, nolog: config.log.nolog}));
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
 });
