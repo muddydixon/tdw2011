@@ -60,12 +60,12 @@ app.get('/api/food', function(req, res){
   }
 });
 
-app.listen(app.settings.port);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-
 app.get('/git', function(req, res){
   res.send(req);
 });
+
+app.listen(app.settings.port);
+console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
 /************************************************************/
 
