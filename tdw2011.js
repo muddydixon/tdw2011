@@ -20,6 +20,7 @@ var express = require('express')
 , os = require('os')
 , log4js = require('log4js')
 , log
+, spawn = require('child_process').spawn
 ;
 
 log4js.addAppender(log4js.fileAppender(path.join(config.log.dir, [config.log.name, os.hostname(), 'access.log'].join('.'))), 'access');
@@ -69,7 +70,10 @@ app.get('/api/food', function(req, res){
 });
 
 app.get('/git', function(req, res){
-  res.send(req);
+  var pull = spawn('git', ['pull', 'origin', 'develop']);
+  pull.stdout.setEncoding('utf8');
+  pull.stdin.end();
+  res.send({msg: "request from"});
 });
 
 app.listen(app.settings.port);
