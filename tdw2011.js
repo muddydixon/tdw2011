@@ -76,6 +76,10 @@ app.get('/git', function(req, res){
   var pull = spawn('git', ['pull', 'origin', 'develop']);
   pull.stdout.setEncoding('utf8');
   pull.stdin.end();
+  
+  var forever = spawn('forever', ['restart', 'tdw2011.js']);
+  forever.stdout.setEncoding('utf8');
+  forever.stdin.end();
   res.send({msg: "request from"});
 });
 
