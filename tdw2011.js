@@ -58,6 +58,9 @@ app.configure('production', function(){
 });
 
 // Routes
+app.get('/', function(req, res){
+  res.redirect('/index.htm', 301);
+});
 app.get('/api/food', function(req, res){
   if(req.query.q){
     searchTweet(req.query.q, function(err, ret){
