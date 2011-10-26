@@ -38,6 +38,8 @@ a:active {
 }
 
 #contents #player{
+	position:absolute;
+	top:-9999em;
 }
 
 #contents #contentsInner{
@@ -100,6 +102,7 @@ a:active {
 	line-height:1;
 	background:#FFFFFF;
 	width:400px;
+	height:169px;
 }
 
 #contents #txtArea .section p.banner a:hover img{
@@ -112,6 +115,7 @@ a:active {
 	margin-top:10px;
 	background:#FFFFFF;
 	width:281px;
+	height:58px;
 }
 
 #contents #txtArea .section p.banner2 a:hover img{
