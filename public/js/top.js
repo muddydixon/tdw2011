@@ -238,13 +238,17 @@ window.jQuery.noConflict();
     $.ajax( { 
       url  : aUrl,
       type : "GET",
+      dataType : 'jsonp',
+      //jsonp : 'jsoncallback',
       data : {"q" : query,
               "include_entities" : 1,
               "lang" : "ja",
               "rpp"  : "20"
        },
       // Success
-      success : function( data ){
+      success : function( json ){
+        
+        var data = json.results;
         var i;
         var dataLen = 0;
         if( fltImgDivMax < data.length ){
@@ -289,10 +293,6 @@ window.jQuery.noConflict();
 
         // 定期実行
         moveImgItvId = setInterval( moveImg, 6000 );
-      },
-      // Error
-      error : function(){
-        console.log("データ取得が失敗しました");
       }
     } );
   }
