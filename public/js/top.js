@@ -297,6 +297,7 @@ window.jQuery.noConflict();
   getApiData( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
   
   // Stream Data
+  /*
   var socket = io.connect( "http://111.171.216.204/", {port: 8080} );
   socket.on( 'tweet', function( tweet ){
     
@@ -332,6 +333,7 @@ window.jQuery.noConflict();
 
     }
   });
+  */
   
 
 });
