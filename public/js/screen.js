@@ -1,10 +1,10 @@
 $(function(){
-  var appUrl = "http://111.171.216.204";
-//   var appUrl = "http://localhost";
   
   /*
    * Config
    */
+  var appUrl = "http://111.171.216.204";
+  
   // 正規表現
   var imgUrlRegExp = { twitter   : /http:\/\/pic\.twitter\.com\/(.+)/gi,
                        twitpic   : /http:\/\/twitpic\.com\/(.+)/gi,
@@ -298,7 +298,7 @@ $(function(){
   getApiData( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
   
   // Stream Data
-  var socket = io.connect( appUrl, {port: 8080} );
+  var socket = io.connect( appUrl + "/", {port: 8080} );
   socket.on( 'tweet', function( tweet ){
     
     var addImgUrl = exchgImg( tweet );
