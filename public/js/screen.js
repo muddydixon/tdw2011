@@ -3,7 +3,9 @@ $(function(){
   /*
    * Config
    */
-  var appUrl = "http://111.171.216.204";
+  //var appUrl = "http://172.19.175.126";
+  var appUrl = "http://" + location.hostname;
+  //var appUrl = "http://111.171.216.204";
   
   // 正規表現
   var imgUrlRegExp = { twitter   : /http:\/\/pic\.twitter\.com\/(.+)/gi,
@@ -24,7 +26,7 @@ $(function(){
                       //dfltq : "jobs"
                        };
   
-  var screenSize = { w :800, h : 600 };
+  var screenSize = { w :1200, h : 800 };
   var fixImgSize = { w :550, h : 550 };
   var fltImgMinSize = 50;
   var fltImgMaxSize = 200;
@@ -45,7 +47,7 @@ $(function(){
    * Logic
    */
   // 背景用Div作成
-  $( 'body' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
+  $( '#contents' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
   $( 'div.pGalleryFrm' ).append($( '<div>' ).addClass( 'pGallery' ));
   
   // 画像URL生成
@@ -72,9 +74,9 @@ $(function(){
     var h = imgItem.height();
     if ( w >= h ) {
       size["w"] = fw;
-      size["h"] = parseInt( h * ( fw / w ) );
+      size["h"] = ( h * ( fw / w ) );
     } else {
-      size["w"] = parseInt( w * ( fh / h ) );
+      size["w"] = ( w * ( fh / h ) );
       size["h"] = fh;
     }
     return size;
@@ -174,17 +176,13 @@ $(function(){
        * 退出の効果
        */
       // 左
-      { left : -( item.children( "img" ).width() )
-      },
+      { left : -( item.children( "img" ).width() ) },
       // 下
-      { top  : $( "div.pGalleryFrm" ).height()
-      },
+      { top  : $( "div.pGalleryFrm" ).height() },
       // 上
-      { top  : -( item.children( "img" ).height() )
-      },
+      { top  : -( item.children( "img" ).height() ) },
       // 右
-      { left : $( "div.pGalleryFrm" ).width() 
-      }
+      { left : $( "div.pGalleryFrm" ).width() }
     ];
     
     var anmTime = 4000;
@@ -251,6 +249,7 @@ $(function(){
         }
         for( i = 0; i < dataLen; i++ ){
           var dataObj  = data[i];
+          console.log(dataObj);
           var iconUrl  = dataObj.profile_image_url;
           var tweetId  = dataObj.id;
           var tweetStr = dataObj.text;

@@ -3,6 +3,11 @@ $(function(){
   /*
    * Config
    */
+  
+  //var appUrl = "http://111.171.216.204";
+  var appUrl = "http://" + location.hostname;
+  //var appUrl = "http://172.19.175.126";
+  
   // 正規表現
   var imgUrlRegExp = { twitter   : /http:\/\/pic\.twitter\.com\/(.+)/gi,
                        twitpic   : /http:\/\/twitpic\.com\/(.+)/gi,
@@ -17,9 +22,8 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
   
-  var restApiConf = { url   : "http://111.171.216.204/tdw2011/api/food",
+  var restApiConf = { url   : appUrl + "/tdw2011/api/food",
                       dfltq : "#おいしいもの"
-                      //dfltq : "jobs"
                        };
   
   var screenSize = { w :800, h : 600 };
@@ -78,7 +82,7 @@ $(function(){
    */
   
   // 背景用Div作成
-  $( 'body' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
+  $( '#contents' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
   $( 'div.pGalleryFrm' ).append($( '<div>' ).addClass( 'pGallery' ));
   $( 'div.pGallery' ).hide();
   $( 'div.pGalleryFrm' ).append($( '<div>' ).addClass( 'showTweets' ));
@@ -121,11 +125,13 @@ $(function(){
   var exchgImg = function( dObj ){
     
     var iUrl = dObj.entities.urls[0].expanded_url;
-    var retUrl = "";
-    for( var k in imgUrlRegExp ){
-      if( iUrl.match( imgUrlRegExp[ k ] ) ){
-        retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
-        break;
+    if( iUrl !== undefined ){
+      var retUrl = "";
+      for( var k in imgUrlRegExp ){
+        if( iUrl.match( imgUrlRegExp[ k ] ) ){
+          retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
+          break;
+        }
       }
     }
     return retUrl;
@@ -238,26 +244,62 @@ $(function(){
        * 退出の効果
        */
       // 左
-      { //top  : $( "div.pGalleryFrm" ).height() / 2 - ( $(this).children( "img" ).height() / 2 ),
-        left : -( item.children( "img" ).width() )
-      },
+      { left : -( item.children( "img" ).width() ) },
       // 下
-      { top  : $( "div.pGalleryFrm" ).height()
-        //left : $( "div.pGalleryFrm" ).width() / 2 - ( $(this).children( "img" ).width() / 2 )
-      },
+      { top  : $( "div.pGalleryFrm" ).height() },
       // 上
-      { top  : -( item.children( "img" ).height() )
-        //left : $( "div.pGalleryFrm" ).width() / 2 - ( $(this).children( "img" ).width() / 2 )
-      },
+      { top  : -( item.children( "img" ).height() ) },
       // 右
-      { //top  : $( "div.pGalleryFrm" ).height() / 2 - ( $(this).children( "img" ).height() / 2 ),
-        left : $( "div.pGalleryFrm" ).width() 
-      },
-      // フェードアウト
-      { opacity : 0 }
+      { left : $( "div.pGalleryFrm" ).width() }
     ];
     
-    item.delay( 8000 ).fadeOut( 'slow', 'swing', function(){
+    var anmTime = 8000;
+    
+    var maxImgSize = getFixedImgSize( item.children( "img" ), $( "div.pGalleryFrm" ).width(), $( "div.pGalleryFrm" ).height() );
+    item.children( "img" ).animate( { height : maxImgSize["h"], 
+                                      width  : maxImgSize["w"] } ,anmTime );
+                                      
+    item.animate( { //top  : 0,
+                top  : ( $( "div.pGalleryFrm" ).height() / 2 ) - ( maxImgSize["h"] / 2 ),
+                left : ( $( "div.pGalleryFrm" ).width() / 2 ) - ( maxImgSize["w"] / 2 ) } ,anmTime )
+        .animate( 
+          endPosition[ parseInt( endPosition.length * Math.random() ) ],
+          { duration : "fast",
+            easing   : "swing",
+            queue    : "true",
+            complete : function(){
+              
+              $(this).css( {
+                top  : parseInt( Math.random() * ( screenSize["h"] - fltImgMaxSize ) ),
+                left : parseInt( Math.random() * ( screenSize["w"] - fltImgMaxSize ) ),
+                "z-index" : 100
+              } );
+              
+              var rSize = parseInt( fltImgMinSize + ( Math.random() * ( fltImgMaxSize - fltImgMinSize ) ) );
+              imgSizeFix( $(this).children("img"), rSize, rSize );
+              $(this).css({ "opacity" : "1" } );
+              $(this).children("img").css({ "opacity" : "0.5" } );
+              
+              if( fltImgDivMax < $( "div.pGallery div.floatImg" ).length ){
+                var maxDelIdx = $( "div.pGallery div.floatImg" ).length - fltImgDivMax;
+                // 削除処理
+                for( var i = 0; i < maxDelIdx; i++ ){
+                  $( "div.pGallery div.floatImg:last-child" ).remove();
+                }
+                // 配列初期化
+                fltImgDivIdxArr = [];
+                for( var i = 0; i < $( "div.pGallery div.floatImg").length; i++ ){
+                  fltImgDivIdxArr.push( i );
+                }
+              }
+              $( 'div.pGallery' ).fadeOut().empty();
+              $( 'div.showTweets' ).fadeIn();
+            }
+          }
+        );
+    
+    /*
+    .delay( 8000 ).fadeOut( 'slow', 'swing', function(){
       
       $(this).css( {
         top  : parseInt( Math.random() * ( screenSize["h"] - fltImgMaxSize ) ),
@@ -271,6 +313,7 @@ $(function(){
       $( 'div.showTweets' ).show();
   
     } );
+    */
   };
   
 
@@ -318,7 +361,8 @@ $(function(){
                       .fadeIn();
                     
                     if( moveImgIdx === $(this).parent("div.floatImg").index() ){
-                      setTimeout( moveImgDish( moveImgIdx ), 5000 );
+                      //setTimeout( moveImgDish( moveImgIdx ), 13000 );
+                      moveImgDish( moveImgIdx );
                     }
                    
                   } )
@@ -360,7 +404,6 @@ $(function(){
           var tweetId  = dataObj.id;
           var tweetStr = dataObj.text;
           var imgUrl   = exchgImg( dataObj );
-          //console.log( dataObj );
           
           $('div.showTweets').append( 
             $('<div>').addClass("tweet")
@@ -382,7 +425,7 @@ $(function(){
   showTweetData( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
   
   // Stream Data
-  var socket = io.connect( "http://111.171.216.204/", {port: 8080} );
+  var socket = io.connect( appUrl + "/", {port: 8080} );
   socket.on( 'tweet', function( tweet ){
     
     if( tweetDivMax <= $( "div.showTweets div.tweet" ).length ){
@@ -392,8 +435,6 @@ $(function(){
         $( "div.showTweets div.tweet:last-child" ).remove();
       }
     }
-    //console.log( tweet.text );
-    //console.log( tweet.entities.urls[0].expanded_url );
     
     //新着追加分はprependする
     $('div.showTweets').prepend( 
