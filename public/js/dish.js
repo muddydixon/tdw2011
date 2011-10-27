@@ -17,7 +17,7 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
   
-  var restApiConf = { url   : "http://172.19.175.126/tdw2011/api/food",
+  var restApiConf = { url   : "http://111.171.216.204/tdw2011/api/food",
                       dfltq : "#おいしいもの"
                       //dfltq : "jobs"
                        };
