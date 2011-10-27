@@ -43,7 +43,7 @@ $(function(){
    * Logic
    */
   // 背景用Div作成
-  $( 'div.mainArea' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
+  $( '#mainArea' ).append( $( '<div>' ).addClass( 'pGalleryFrm' ) );
   $( 'div.pGalleryFrm' ).append($( '<div>' ).addClass( 'pGallery' ));
   
   // 画像URL生成
