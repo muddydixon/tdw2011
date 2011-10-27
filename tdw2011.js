@@ -98,7 +98,7 @@ io.of('/tdw2011').on('connection', function(socket){
 var streamOptions = {
   host: 'stream.twitter.com'
   , port: 443
-  , path: '/1/statuses/filter.json?'+qs.stringify({track: ['twitpic', 'plixi', 'twipple', 'yfrog'].map(function(w){return ['iphone', w].join(' ');}).join(',')})
+  , path: '/1/statuses/filter.json?'+qs.stringify({track: config.photos.map(function(w){return [config.streamquery, w].join(' ');}).join(',')})
   , headers: {
     'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
@@ -139,9 +139,7 @@ var searchTweet = function(query, cb){
   if(typeof cb === 'undefined'){
     return false;
   }
-// '/1/statuses/filter.json?'+qs.stringify({track: ['twitpic', 'plixi', 'twipple', 'yfrog'].map(function(w){return ['iphone', w].join(' ');}).join(',')})
-//   searchOptions.path = [twitterAPI, qs.stringify({q: query+' twitpic', "include_entities": true})].join('?');
-  searchOptions.path = [twitterAPI, qs.stringify({q: ['twitpic', 'plixi', 'twipple', 'yfrog'].map(function(w){
+  searchOptions.path = [twitterAPI, qs.stringify({q: config.photos.map(function(w){
     return [query, w].join(' ');
   }), "include_entities": true})].join('?');
   http.get(searchOptions, function(res){
