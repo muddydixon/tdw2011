@@ -57,6 +57,32 @@ a:active {
 	margin-bottom:22px;
 }
 
+#contents #contentsInner #mainArea{
+  margin-bottom:22px;
+}
+
+#contents #contentsInner #mainArea div.pGalleryFrm{
+  background : #000000;
+  width      : 688px;
+  height     : 391px;
+  overflow   : hidden;
+  
+}
+
+#contents #contentsInner #mainArea div.pGallery{
+  position : relative;
+  background : #000000;
+  width      : 688px;
+  height     : 391px;
+  left       : 0px;
+  
+}
+
+div.floatImg{
+  position : absolute;
+}
+
+
 #contents #tweetgGuide{
 	margin-bottom:22px;
 	text-align:center;
