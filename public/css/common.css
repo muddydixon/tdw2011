@@ -1,0 +1,125 @@
+@charset "shift_jis";
+
+/* ****************************************************************** 
+
+	@This stylesheet Information{
+		CSS File Name: common.css
+
+		Setting of: General pages
+			1: General setting
+			2: container setting
+	}
+
+****************************************************************** */
+
+
+/*===================================================================
+	1: General setting
+===================================================================*/
+
+
+body,div,h1,h2,h3,h4,h5,h6,p,address,blockquote,pre,th,td,dl,dt,dd,ul,ol,li,form,fieldset,textarea,table{
+	margin:0;
+	padding:0;
+	font-size:100%;
+}
+
+html{
+	width:100%;
+	height:100%;
+	background-color:#FFF;
+	overflow-y:scroll;
+}
+
+body{
+	width:100%;
+	height:100%;
+	min-height:100%;
+	background:#FFF;
+	color:#333;
+	font-size:small;
+	_font-size:x-small;	/*IE6*/
+	line-height:1.37;
+	text-align:center;
+	font-family:'MS PGothic',Verdana, Arial,'ƒqƒ‰ƒMƒmŠpƒS Pro W3','Hiragino Kaku Gothic Pro', Osaka, sans-serif;
+	word-break:normal;
+	word-wrap:break-word;
+}
+
+html>body{height:auto;}
+
+ul,
+ol{list-style:none;}
+
+table{border-collapse:collapse;line-height:1.37;}
+
+table caption,
+table th,
+table td{text-align:left;vertical-align:top;}
+
+hr{display:none;}
+
+img{border:0;}
+
+a:link{color:#0052E9; text-decoration:underline;}
+a:visited{color:#660099; text-decoration:underline;}
+a:hover{color:#003399; text-decoration:none;}
+a:active{color:#003399; text-decoration:none;}
+
+em{font-weight:bold;font-style:normal;}
+
+input{line-height:normal;}
+
+address{font-style:normal;}
+
+pre{
+	white-space:-moz-pre-wrap; /* Mozilla */
+	white-space:-pre-wrap; /* Opera 4-6 */
+	white-space:-o-pre-wrap; /* Opera 7 */
+	white-space:pre-wrap; /* CSS3 */
+}
+
+
+/*--[class]-----------------------------------------------------*/
+
+.clearBoth{clear:both;}
+
+.caution{color:#CC0000 !important;}
+
+.noscriptMsg{
+	color:#CC0000;
+	font-weight:bold;
+	padding:1px 0 1px 20px;
+	background:url(/coordinate/images/ico_noscript.gif) no-repeat 0 0.25em;
+}
+
+.dispNone,
+.skipNav{
+	display: none;
+	/* Hides from IE5-Mac \*/ 
+	display: block;
+	position: absolute;
+	top: -500px;
+	left: -2500px;
+	font-size: 1px;
+	line-height: 100%;
+	/*end  Hides from IE5-Mac */
+}
+
+
+/* clearfix */
+.pkg:after{
+	content: ".";
+	display: block;
+	clear: both;
+	height: 0px;
+	visibility:hidden;
+}
+
+.pkg{ display: inline-block; }
+
+/* no ie mac \*/
+* html .pkg{ height: 1%; }
+.pkg{ display: block; }
+/* */
+

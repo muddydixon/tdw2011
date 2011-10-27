@@ -1,9 +1,14 @@
 {
-    "name": "application-name"
+    "name": "tdw2011"
+  , "engine": "v0.4.10"
   , "version": "0.0.1"
   , "private": true
   , "dependencies": {
       "express": "2.4.3"
-    , "jade": ">= 0.0.1"
+    , "jade": ">= 0.16.2"
+    , "config": ">= 0.4.3"
+    , "mongoose": ">= 2.3.3"
+    , "socket.io": ">= 0.8.5"
+    , "base64": ">= 2.0.3"
   }
 }

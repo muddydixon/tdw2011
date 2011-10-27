@@ -1,0 +1,11 @@
+@charset "shift_jis";
+
+body {
+	background:#FFFFFF !important;
+	color:#000000  !important;
+}
+
+#contents {
+	background:#FFFFFF none !important;
+}
+

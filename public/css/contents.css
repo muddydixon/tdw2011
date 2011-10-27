@@ -1,0 +1,201 @@
+@charset "Shift_JIS";
+/*===================================================================
+	#contents setting
+===================================================================*/
+
+body {
+	background:#000;
+	color: #DDD;
+}
+
+a:link {
+	color:#00a0e9;
+	font-weight:bold;
+	text-decoration:none;
+}
+
+a:visited {
+	color:#adadad;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#00a0e9;
+	text-decoration:underline;
+}
+
+a:active {
+	color:#00a0e9;
+}
+
+#contents {
+	width:800px;
+	margin:0 auto;
+	text-align:left;
+	background:#000 url(../images/mainbg.gif) center top no-repeat;
+	font-size:0.92em;
+	_text-align:center;
+}
+
+#contents #player{
+	position:absolute;
+	top:-9999em;
+}
+
+#contents #contentsInner{
+	margin:0 auto;
+	width:688px;
+	padding-bottom:50px;
+	_text-align:left;
+}
+
+#contents #contentsInner h1{
+	padding:20px 0 13px;
+}
+
+#contents #contentsInner #mainArea{
+	margin-bottom:22px;
+}
+
+#contents #contentsInner #mainArea{
+  margin-bottom:22px;
+}
+
+#contents #contentsInner #mainArea div.pGalleryFrm{
+  background : #000000;
+  width      : 688px;
+  height     : 391px;
+  overflow   : hidden;
+  
+}
+
+#contents #contentsInner #mainArea div.pGallery{
+  position : relative;
+  background : #000000;
+  width      : 688px;
+  height     : 391px;
+  left       : 0px;
+  
+}
+
+div.floatImg{
+  position : absolute;
+}
+
+
+#contents #tweetgGuide{
+	margin-bottom:22px;
+	text-align:center;
+}
+
+#contents #tweetgGuide a:hover img{
+}
+
+#contents #tweetgGuide a img{
+}
+
+#contents #txtArea{
+	padding-bottom:30px;
+	border-bottom:2px solid #4d1909;
+	margin-bottom:10px;
+}
+
+#contents #txtArea #leftColumn{
+	float:left;
+	width:400px;
+}
+
+#contents #txtArea #rightColumn{
+	float:right;
+	width:250px;
+}
+
+#contents #txtArea .section{
+	margin-bottom:30px;
+}
+
+#contents #txtArea .end{
+	margin-bottom:0;
+}
+
+#contents #txtArea .section p.ttl{
+	margin-bottom:10px;
+	line-height:1;
+}
+
+#contents #txtArea .section p.banner{
+	margin-bottom:10px;
+	line-height:1;
+	background:#FFFFFF;
+	width:400px;
+	height:169px;
+}
+
+#contents #txtArea .section p.banner a:hover img{
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	-ms-filter: "alpha( opacity=80 )";
+}
+
+#contents #txtArea .section p.banner2{
+	margin-top:10px;
+	background:#FFFFFF;
+	width:281px;
+	height:58px;
+}
+
+#contents #txtArea .section p.banner2 a:hover img{
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	-ms-filter: "alpha( opacity=80 )";
+}
+
+#contents #txtArea .section p{
+	line-height:1.62;
+}
+
+#contents #txtArea .section p.caption{
+	color:#aaa;
+	padding-top:5px;
+}
+
+#contents #txtArea #rightColumn .section ul{
+	padding:10px;
+	color:#00a0e9;
+	font-weight:bold;
+}
+
+#contents #txtArea #rightColumn .section ul li{
+	list-style: disc inside;
+	margin-bottom:5px;
+}
+
+#contentsBtm p.copyright,
+#contentsBtm p.mail{
+	float:left;
+	color:#aaa;
+}
+
+#contentsBtm p.copyright{
+	margin-right:20px;
+}
+
+#contents #tweetgGuide2{
+	clear:both;
+	padding-top:30px;
+}
+
+#contents #tweetgGuide2 a:hover img{
+}
+
+#contents #tweetgGuide2 a img{
+}
+
+
+
+
+
+
+
+
+
