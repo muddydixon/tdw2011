@@ -1,4 +1,5 @@
-$(function(){
+window.jQuery.noConflict();
+(function($){ $(function(){
   
   /*
    * Config
@@ -334,3 +335,5 @@ $(function(){
   
 
 });
+}(window.jQuery));
+
