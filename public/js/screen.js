@@ -1,4 +1,6 @@
 $(function(){
+//   var appUrl = "http://111.171.216.204";
+  var appUrl = "http://localhost";
   
   /*
    * Config
@@ -17,7 +19,7 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s//media/?size=m" };
   
-  var restApiConf = { url   : "http://111.171.216.204/tdw2011/api/food",
+  var restApiConf = { url   : appUrl + "/tdw2011/api/food",
                       dfltq : "#おいしいもの"
                       //dfltq : "jobs"
                        };
@@ -296,7 +298,7 @@ $(function(){
   getApiData( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
   
   // Stream Data
-  var socket = io.connect( "http://111.171.216.204/", {port: 8080} );
+  var socket = io.connect( appUrl, {port: 8080} );
   socket.on( 'tweet', function( tweet ){
     
     var addImgUrl = exchgImg( tweet );
