@@ -1,6 +1,6 @@
 $(function(){
-//   var appUrl = "http://111.171.216.204";
-  var appUrl = "http://localhost";
+  var appUrl = "http://111.171.216.204";
+//   var appUrl = "http://localhost";
   
   /*
    * Config
