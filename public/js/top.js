@@ -18,8 +18,8 @@ window.jQuery.noConflict();
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s//media/?size=m" };
   
-  var restApiConf = { url   : "http://111.171.216.204/tdw2011/api/food",
-                      dfltq : "#おいしいもの"
+  var restApiConf = { url   : "http://search.twitter.com/search.json",
+                      dfltq : "#おいしいもの pic.twitter OR twitpic OR plixi OR twipple OR yfrog -RT -QT"
                       //dfltq : "jobs"
                        };
   
@@ -234,11 +234,15 @@ window.jQuery.noConflict();
   
 
   // APIからデータ取得 img
-  var getApiData = function( aUrl, query ){
+  var getApiDataTop = function( aUrl, query ){
     $.ajax( { 
       url  : aUrl,
       type : "GET",
-      data : {"q" : query },
+      data : {"q" : query,
+              "include_entities" : 1,
+              "lang" : "ja",
+              "rpp"  : "20"
+       },
       // Success
       success : function( data ){
         var i;
@@ -294,48 +298,8 @@ window.jQuery.noConflict();
   }
   
   // Initial Logic
-  getApiData( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
+  getApiDataTop( restApiConf[ "url" ], restApiConf[ "dfltq" ] );
   
-  // Stream Data
-  /*
-  var socket = io.connect( "http://111.171.216.204/", {port: 8080} );
-  socket.on( 'tweet', function( tweet ){
-    
-    var addImgUrl = exchgImg( tweet );
-    
-    if( addImgUrl ){
-      
-      //新着追加分はprependする
-      $('div.pGallery').prepend( 
-        $('<div>')
-        .addClass("floatImg")
-        .css( {left : $( 'div.pGalleryFrm' ).css( "width" ) } )
-        .append( 
-          $('<img>').attr( { "src" : addImgUrl, "alt" : "" } )
-          .load( function(){ 
-                      var rSize = parseInt( fltImgMinSize + ( Math.random() * ( fltImgMaxSize - fltImgMinSize ) ) );
-                      imgSizeFix( $(this), rSize, rSize );
-                      $(this).css( { opacity : "0.5" } );
-                      
-                      $(this).parent("div.floatImg")
-                        .css( {
-                          top  : parseInt( Math.random() * ( screenSize["h"] - fltImgMaxSize ) ),
-                          left : parseInt( Math.random() * ( screenSize["w"] - fltImgMaxSize ) ),
-                          display : "none",
-                          "z-index" : 100
-                        } )
-                        .fadeIn();
-                      
-                    } )
-        )
-        
-      );
-
-    }
-  });
-  */
-  
-
 });
 }(window.jQuery));
 
