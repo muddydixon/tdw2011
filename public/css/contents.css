@@ -191,6 +191,23 @@ div.floatImg{
 #contents #tweetgGuide2 a img{
 }
 
+div.socialplugins{
+	margin-bottom:5px;
+	/width:100%;
+	background:url(/images/dot_gray.gif) 0 bottom repeat-x;
+}
+
+div.socialplugins ul{
+	text-align:right;
+	/float:right;
+}
+
+div.socialplugins li{
+	display:inline-block;
+	/float:left;
+	padding-left:5px;
+}
+
 
 
 
