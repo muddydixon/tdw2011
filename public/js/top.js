@@ -16,12 +16,11 @@ window.jQuery.noConflict();
   var imgUrlFmt = { twitpic   : "http://twitpic.com/show/large/%s",
                     twipple   : "http://p.twipple.jp/show/large/%s",
                     yfrog     : "http://yfrog.com/%s:medium",
-                    instagram : "http://instagr.am/p/%s//media/?size=m" };
+                    instagram : "http://instagr.am/p/%s/media/?size=m" };
   
   var restApiConf = { url   : "http://search.twitter.com/search.json",
-                      dfltq : "#おいしいもの pic.twitter OR twitpic OR plixi OR twipple OR yfrog -RT -QT"
-                      //dfltq : "jobs"
-                       };
+                      dfltq : "#おいしいもの twitter OR twitpic OR plixi OR twipple OR yfrog OR instagr -RT -QT"
+                    };
   
   var screenSize = { w :688, h : 391 };
   var fixImgSize = { w :330, h : 330 };
@@ -49,18 +48,20 @@ window.jQuery.noConflict();
   
   // 画像URL生成
   var exchgImg = function( dObj ){
-    
     var retUrl = "";
-    
-    var iUrl = dObj.entities.urls[0].expanded_url;
-    if( iUrl !== undefined ){
-      for( var k in imgUrlRegExp ){
-        if( iUrl.match( imgUrlRegExp[ k ] ) ){
-          retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
-          break;
+    if( dObj.entities.media ) {
+      retUrl = dObj.entities.media[0].media_url;
+    } else if( dObj.entities.urls[0].expanded_url ){
+      var iUrl = dObj.entities.urls[0].expanded_url;
+      if( iUrl !== undefined ){
+        for( var k in imgUrlRegExp ){
+          if( iUrl.match( imgUrlRegExp[ k ] ) ){
+            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
+            break;
+          }
         }
       }
-    }
+    } 
     return retUrl;
   }
     
@@ -97,7 +98,6 @@ window.jQuery.noConflict();
     
     var moveIdx = fltImgDivIdxArr.shift();
     fltImgDivIdxArr.push( moveIdx );
-    console.log( moveIdx );
     var selDiv = $( $( "div.floatImg" ).get( moveIdx ) );
     
     var fixedTmpImgSize = getFixedImgSize(selDiv.children( "img" ), fixImgSize["w"], fixImgSize["h"]);
@@ -247,7 +247,6 @@ window.jQuery.noConflict();
        },
       // Success
       success : function( json ){
-        
         var data = json.results;
         var i;
         var dataLen = 0;
