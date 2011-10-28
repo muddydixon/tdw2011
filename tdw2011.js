@@ -62,17 +62,14 @@ app.get('/', function(req, res){
   res.redirect('/index.htm', 301);
 });
 app.get('/api/food', function(req, res){
-  if(req.query.q){
-    searchTweet(req.query.q, function(err, ret){
-      if(res){
-        return res.send(ret.results);
-      }else{
-        return res.send({});
-      }
-    });
-  }else{
-    return res.send({});
-  }
+  var query = req.query.q || '#おいしいもの';
+  searchTweet(query, function(err, ret){
+    if(res){
+      return res.send(ret.results);
+    }else{
+      return res.send({});
+    }
+  });
 });
 
 app.get('/git', function(req, res){
