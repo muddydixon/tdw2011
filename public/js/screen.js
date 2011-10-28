@@ -25,7 +25,7 @@ $(function(){
                       //dfltq : "jobs"
                        };
   
-  var screenSize = { w :1200, h : 800 };
+  var screenSize = { w :1024, h : 768 };
   var fixImgSize = { w :550, h : 550 };
   var fltImgMinSize = 50;
   var fltImgMaxSize = 200;
