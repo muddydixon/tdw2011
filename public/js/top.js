@@ -72,9 +72,9 @@ window.jQuery.noConflict();
     var h = imgItem.height();
     if ( w >= h ) {
       size["w"] = fw;
-      size["h"] = parseInt( h * ( fw / w ) );
+      size["h"] = ( h * ( fw / w ) );
     } else {
-      size["w"] = parseInt( w * ( fh / h ) );
+      size["w"] = ( w * ( fh / h ) );
       size["h"] = fh;
     }
     return size;

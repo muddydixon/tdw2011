@@ -1,6 +1,6 @@
 {
     "appbase": "/tdw2011"
-  , "photos": ["pic.twitter", "twitpic", "plixi", "twipple", "yfrog"]
+  , "photos": ["twitter", "twitpic", "twipple", "yfrog", "instgr"]
   , "streamquery": "#おいしいもの"
   , "log": {
       "dir": "./logs"

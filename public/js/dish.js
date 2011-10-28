@@ -4,9 +4,7 @@ $(function(){
    * Config
    */
   
-  //var appUrl = "http://111.171.216.204";
   var appUrl = "http://" + location.hostname;
-  //var appUrl = "http://172.19.175.126";
   
   // 正規表現
   var imgUrlRegExp = { twitter   : /http:\/\/pic\.twitter\.com\/(.+)/gi,
@@ -15,13 +13,13 @@ $(function(){
                        yfrog     : /http:\/\/yfrog\.com\/(.+)/gi,
                        instagram : /http:\/\/instagr\.am\/p\/(.+)\//gi
                        };
-  
+    
   // URLのフォーマット
   var imgUrlFmt = { twitpic   : "http://twitpic.com/show/large/%s",
                     twipple   : "http://p.twipple.jp/show/large/%s",
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
-  
+    
   var restApiConf = { url   : appUrl + "/tdw2011/api/food",
                       dfltq : "#おいしいもの"
                        };
@@ -123,20 +121,23 @@ $(function(){
   
   // 画像URL生成
   var exchgImg = function( dObj ){
-    
-    var iUrl = dObj.entities.urls[0].expanded_url;
-    if( iUrl !== undefined ){
-      var retUrl = "";
-      for( var k in imgUrlRegExp ){
-        if( iUrl.match( imgUrlRegExp[ k ] ) ){
-          retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
-          break;
+    var retUrl = "";
+    if( dObj.entities.media ) {
+      retUrl = dObj.entities.media[0].media_url;
+    } else if( dObj.entities.urls[0].expanded_url ){
+      var iUrl = dObj.entities.urls[0].expanded_url;
+      if( iUrl !== undefined ){
+        for( var k in imgUrlRegExp ){
+          if( iUrl.match( imgUrlRegExp[ k ] ) ){
+            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
+            break;
+          }
         }
       }
-    }
+    } 
     return retUrl;
   }
-  
+    
   // 画像サイズ取得
   var getFixedImgSize = function( imgItem, fw, fh ){
     var size = new Array();
@@ -145,9 +146,9 @@ $(function(){
     
     if ( w >= h ) {
       size["w"] = fw;
-      size["h"] = parseInt( h * ( fw / w ) );
+      size["h"] = ( h * ( fw / w ) );
     } else {
-      size["w"] = parseInt( w * ( fh / h ) );
+      size["w"] = ( w * ( fh / h ) );
       size["h"] = fh;
     }
     return size;
@@ -377,7 +378,7 @@ $(function(){
       },
       // Error
       error : function(){
-        console.log("データ取得が失敗しました");
+        //console.log("データ取得が失敗しました");
       }
     } );
   }
@@ -416,7 +417,7 @@ $(function(){
       },
       // Error
       error : function(){
-        console.log("データ取得が失敗しました");
+        //console.log("データ取得が失敗しました");
       }
     } );
   }
