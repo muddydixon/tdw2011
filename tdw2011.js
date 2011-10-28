@@ -98,7 +98,7 @@ io.of('/tdw2011').on('connection', function(socket){
 var streamOptions = {
   host: 'stream.twitter.com'
   , port: 443
-  , path: '/1/statuses/filter.json?'+qs.stringify({track: config.photos.map(function(w){return [config.streamquery, w].join(' ');}).join(',')})
+  , path: '/1/statuses/filter.json?'+qs.stringify({track: config.photos.map(function(w){return [config.streamquery, w].join(' ');}).join(' OR ')})
   , headers: {
     'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
@@ -141,7 +141,8 @@ var searchTweet = function(query, cb){
   }
   searchOptions.path = [twitterAPI, qs.stringify({q: config.photos.map(function(w){
     return [query, w].join(' ');
-  }), "include_entities": true})].join('?');
+  }).join(' OR '), "include_entities": true})].join('?');
+  console.log(searchOptions.path);
   http.get(searchOptions, function(res){
     if(res.statusCode !== 200){
       cb(new Error('status code = '+res.statusCode), null);
