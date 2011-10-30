@@ -108,7 +108,7 @@ $(function(){
       
       imgSizeFixAnm( selDiv.children( "img" ), fixImgSize["w"], fixImgSize["h"] );
       
-      selDiv.children("img").css( { opacity : "0.8" } );
+      selDiv.children("img").css( { opacity : "1.0" } );
       
       var startPosition = [
         /*
