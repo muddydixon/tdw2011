@@ -3,7 +3,6 @@ $(function(){
   /*
    * Config
    */
-  
   var appUrl = "http://" + location.hostname;
   
   // 正規表現
@@ -20,11 +19,10 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
                     
-  var restApiConf = { url   : appUrl + "/tdw2011/api/food",
-                      dfltq : "#おいしいもの"
-                      //dfltq : "jobs"
-                       };
-  
+  var restApiConf = { url   : "http://search.twitter.com/search.json",
+                      dfltq : "#おいしいもの twitter OR twitpic OR plixi OR twipple OR yfrog OR instagr -RT -QT"
+                    };
+                      
   var screenSize = { w :1024, h : 768 };
   var fixImgSize = { w :550, h : 550 };
   var fltImgMinSize = 50;
@@ -32,7 +30,7 @@ $(function(){
   
   // float Obj
   var fltImgDivIdxArr = new Array();
-  var fltImgDivMax = 15;
+  var fltImgDivMax = 30;
   
   // インターバルのID
   var moveImgItvId;
@@ -52,11 +50,11 @@ $(function(){
   // 画像URL生成
   var exchgImg = function( dObj ){
     var retUrl = "";
-    if( dObj.entities.media ) {
-      retUrl = dObj.entities.media[0].media_url;
-    } else if( dObj.entities.urls[0].expanded_url ){
-      var iUrl = dObj.entities.urls[0].expanded_url;
-      if( iUrl !== undefined ){
+    if( dObj.entities ){
+      if( dObj.entities.media ) {
+        retUrl = dObj.entities.media[0].media_url;
+      } else if( dObj.entities.urls ){
+        var iUrl = dObj.entities.urls[0].expanded_url;
         for( var k in imgUrlRegExp ){
           if( iUrl.match( imgUrlRegExp[ k ] ) ){
             retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
@@ -64,10 +62,9 @@ $(function(){
           }
         }
       }
-    } 
+    }
     return retUrl;
-  }
-  
+  }  
   // 画像サイズ取得
   var getFixedImgSize = function( imgItem, fw, fh ){
     var size = new Array();
@@ -237,9 +234,16 @@ $(function(){
     $.ajax( { 
       url  : aUrl,
       type : "GET",
-      data : {"q" : query },
+      dataType : 'jsonp',
+      //data : {"q" : query },
+      data : {"q" : query,
+              "include_entities" : 1,
+              "lang" : "ja",
+              "rpp"  : fltImgDivMax
+       },
       // Success
-      success : function( data ){
+      success : function( json ){
+        var data = json.results;
         var i;
         var dataLen = 0;
         if( fltImgDivMax < data.length ){
