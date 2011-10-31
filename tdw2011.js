@@ -95,12 +95,12 @@ io.of('/tdw2011').on('connection', function(socket){
 var streamOptions = {
   host: 'stream.twitter.com'
   , port: 443
-  , path: '/1/statuses/filter.json?'+qs.stringify({track: config.photos.map(function(w){return [config.streamquery, w].join(' ');}).join(' OR ')})
+  , path: '/1/statuses/filter.json?'+qs.stringify({track: config.photos.map(function(w){return [config.streamquery, w].join(' ');}).join(',')})
   , headers: {
     'Authorization': 'Basic '+base64.encode('nifty_engineer:9v3qjvra')
   }
 };
-
+console.log(streamOptions.path);
 var req = https.get(streamOptions, function(res){
   res.setEncoding('utf8');
   var buf = '', id, json;
