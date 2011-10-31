@@ -3,7 +3,6 @@ $(function(){
   /*
    * Config
    */
-  
   var appUrl = "http://" + location.hostname;
   
   // 正規表現
@@ -20,11 +19,10 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
                     
-  var restApiConf = { url   : appUrl + "/tdw2011/api/food",
-                      dfltq : "#おいしいもの"
-                      //dfltq : "jobs"
-                       };
-  
+  var restApiConf = { url   : "http://search.twitter.com/search.json",
+                      dfltq : "#おいしいもの twitter OR twitpic OR plixi OR twipple OR yfrog OR instagr -RT -QT"
+                    };
+                      
   var screenSize = { w :1024, h : 768 };
   var fixImgSize = { w :550, h : 550 };
   var fltImgMinSize = 50;
@@ -237,9 +235,16 @@ $(function(){
     $.ajax( { 
       url  : aUrl,
       type : "GET",
-      data : {"q" : query },
+      dataType : 'jsonp',
+      //data : {"q" : query },
+      data : {"q" : query,
+              "include_entities" : 1,
+              "lang" : "ja",
+              "rpp"  : "20"
+       },
       // Success
-      success : function( data ){
+      success : function( json ){
+        var data = json.results;
         var i;
         var dataLen = 0;
         if( fltImgDivMax < data.length ){

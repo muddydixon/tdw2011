@@ -20,9 +20,10 @@ $(function(){
                     yfrog     : "http://yfrog.com/%s:medium",
                     instagram : "http://instagr.am/p/%s/media/?size=m" };
     
-  var restApiConf = { url   : appUrl + "/tdw2011/api/food",
-                      dfltq : "#おいしいもの"
-                       };
+  var restApiConf = { url   : "http://search.twitter.com/search.json",
+                      dfltq : "#おいしいもの twitter OR twitpic OR plixi OR twipple OR yfrog OR instagr -RT -QT"
+                    };
+                      
   
   var screenSize = { w :800, h : 600 };
   var fixImgSize = { w :550, h : 550 };
@@ -122,19 +123,21 @@ $(function(){
   // 画像URL生成
   var exchgImg = function( dObj ){
     var retUrl = "";
-    if( dObj.entities.media ) {
-      retUrl = dObj.entities.media[0].media_url;
-    } else if( dObj.entities.urls[0].expanded_url ){
-      var iUrl = dObj.entities.urls[0].expanded_url;
-      if( iUrl !== undefined ){
-        for( var k in imgUrlRegExp ){
-          if( iUrl.match( imgUrlRegExp[ k ] ) ){
-            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
-            break;
-          }
-        }
-      }
-    } 
+    if( dObj.entities ){
+	    if( dObj.entities.media ) {
+	      retUrl = dObj.entities.media[0].media_url;
+	    } else if( dObj.entities.urls ){
+	      var iUrl = dObj.entities.urls[0].expanded_url;
+	      if( iUrl !== undefined ){
+	        for( var k in imgUrlRegExp ){
+	          if( iUrl.match( imgUrlRegExp[ k ] ) ){
+	            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
+	            break;
+	          }
+	        }
+	      }
+	    }
+    }
     return retUrl;
   }
     
@@ -323,9 +326,16 @@ $(function(){
     $.ajax( { 
       url  : aUrl,
       type : "GET",
-      data : {"q" : query },
+      dataType : 'jsonp',
+      //data : {"q" : query },
+      data : {"q" : query + " twitter OR twitpic OR plixi OR twipple OR yfrog OR instagr -RT -QT",
+              "include_entities" : 1,
+              "lang" : "ja",
+              "rpp"  : "20"
+       },
       // Success
-      success : function( data ){
+      success : function( json ){
+        var data = json.results;
         var i;
         var dataLen;
         if( data.length < fltImgDivMax ){
@@ -388,9 +398,16 @@ $(function(){
     $.ajax( { 
       url  : aUrl,
       type : "GET",
-      data : {"q" : query },
+      //data : {"q" : query },
+      data : {"q" : query,
+              "include_entities" : 1,
+              "lang" : "ja",
+              "rpp"  : "20"
+       },
+      dataType : 'jsonp',
       // Success
-      success : function( data ){
+      success : function( json ){
+        var data = json.results;
         var i;
         var dataLen = 0;
         if( data.length < tweetDivMax ){
