@@ -128,14 +128,12 @@ $(function(){
 	      retUrl = dObj.entities.media[0].media_url;
 	    } else if( dObj.entities.urls ){
 	      var iUrl = dObj.entities.urls[0].expanded_url;
-	      if( iUrl !== undefined ){
-	        for( var k in imgUrlRegExp ){
-	          if( iUrl.match( imgUrlRegExp[ k ] ) ){
-	            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
-	            break;
-	          }
-	        }
-	      }
+        for( var k in imgUrlRegExp ){
+          if( iUrl.match( imgUrlRegExp[ k ] ) ){
+            retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
+            break;
+          }
+        }
 	    }
     }
     return retUrl;

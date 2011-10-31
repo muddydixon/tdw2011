@@ -30,7 +30,7 @@ $(function(){
   
   // float Obj
   var fltImgDivIdxArr = new Array();
-  var fltImgDivMax = 15;
+  var fltImgDivMax = 30;
   
   // インターバルのID
   var moveImgItvId;
@@ -50,11 +50,11 @@ $(function(){
   // 画像URL生成
   var exchgImg = function( dObj ){
     var retUrl = "";
-    if( dObj.entities.media ) {
-      retUrl = dObj.entities.media[0].media_url;
-    } else if( dObj.entities.urls[0].expanded_url ){
-      var iUrl = dObj.entities.urls[0].expanded_url;
-      if( iUrl !== undefined ){
+    if( dObj.entities ){
+      if( dObj.entities.media ) {
+        retUrl = dObj.entities.media[0].media_url;
+      } else if( dObj.entities.urls ){
+        var iUrl = dObj.entities.urls[0].expanded_url;
         for( var k in imgUrlRegExp ){
           if( iUrl.match( imgUrlRegExp[ k ] ) ){
             retUrl = imgUrlFmt[ k ].replace( "%s", RegExp.$1 );
@@ -62,10 +62,9 @@ $(function(){
           }
         }
       }
-    } 
+    }
     return retUrl;
-  }
-  
+  }  
   // 画像サイズ取得
   var getFixedImgSize = function( imgItem, fw, fh ){
     var size = new Array();
@@ -240,7 +239,7 @@ $(function(){
       data : {"q" : query,
               "include_entities" : 1,
               "lang" : "ja",
-              "rpp"  : "20"
+              "rpp"  : fltImgDivMax
        },
       // Success
       success : function( json ){
