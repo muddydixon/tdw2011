@@ -305,7 +305,7 @@ $(function(){
   // Stream Data
   var socket = io.connect( appUrl + "/", {port: 8080} );
   socket.on( 'tweet', function( tweet ){
-    $('#socket').css({background:'#666'});
+    $('#socket').toggle();
     
     var addImgUrl = exchgImg( tweet );
     
